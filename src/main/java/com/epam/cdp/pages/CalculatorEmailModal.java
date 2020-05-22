@@ -36,6 +36,12 @@ public class CalculatorEmailModal extends BaseCalculatorPage {
         return this;
     }
 
+    public CalculatorEmailModal enterEmail(String email) {
+        switchToCalculatorFrame();
+        wait.until(ExpectedConditions.visibilityOf(emailInput)).sendKeys(email);
+        return this;
+    }
+
     public CalculatorPage submitEmailForm() {
         wait.until(ExpectedConditions.elementToBeClickable(sendEmailButton));
         jsClick(sendEmailButton);

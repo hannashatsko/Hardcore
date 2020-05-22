@@ -12,6 +12,7 @@ public class GoogleCloudPlatformPricingCalculatorTest extends BaseTest {
     @Test(groups = {"SmokeTest", "P0"}, description="Fill in form for order and compare prices")
     public void testCalculateAndComparePriceTest() {
         TabManager tabManager = new TabManager(driver);
+
         ComputeEngineConfiguration calculatorConfiguration = new ComputeEngineConfiguration(
                 Integer.parseInt(config.getProperty("instanceCount")),
                 config.getProperty("os"),
@@ -33,9 +34,9 @@ public class GoogleCloudPlatformPricingCalculatorTest extends BaseTest {
         calculatorPage.emailEstimate().waitToBeOpened();
         tabManager.switchToUrl("https://10minutemail.com/");
         EmailGeneratorPage emailGeneratorPage = new EmailGeneratorPage(driver);
-        emailGeneratorPage.getMoreTime().copyEmailToClipboard();
+        String generatedEmail = emailGeneratorPage.getMoreTime().getGeneratedEmail();
         tabManager.switchToIndex(0);
-        new CalculatorEmailModal(driver).enterEmailFromClipboard().submitEmailForm();
+        new CalculatorEmailModal(driver).enterEmail(generatedEmail).submitEmailForm();
         tabManager.switchToIndex(1);
         String emailedEstimatedCost = emailGeneratorPage.getEstimatedMonthlyCost();
         Assert.assertEquals(googleEstimatedPrice, emailedEstimatedCost);

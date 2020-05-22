@@ -22,14 +22,15 @@ public abstract class BaseTest {
         WebDriverManager.chromedriver().setup();
     }
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     protected void startBrowser() {
         driver = DriverSingleton.getDriver();
-        config = new ConfigReader("/development.properties").getProperties();
+        String environment = System.getProperty("environment", "development");
+        config = new ConfigReader("/" + environment + ".properties").getProperties();
         driver.manage().window().maximize();
     }
 
-    @AfterMethod
+    @AfterMethod(alwaysRun = true)
     protected void browserTearDown() {
         driver.quit();
         driver = null;

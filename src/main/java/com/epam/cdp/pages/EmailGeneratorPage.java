@@ -20,6 +20,9 @@ public class EmailGeneratorPage extends BasePage {
     @FindBy(css = "#inbox_count_number")
     WebElement emailCount;
 
+    @FindBy(css = "#mail_address")
+    WebElement generatedEmail;
+
     public EmailGeneratorPage(WebDriver driver) {
         super(driver);
     }
@@ -33,6 +36,11 @@ public class EmailGeneratorPage extends BasePage {
         wait.until(ExpectedConditions.elementToBeClickable(getMoreTimeButton));
         getMoreTimeButton.click();
         return this;
+    }
+
+    public String getGeneratedEmail() {
+        wait.until(ExpectedConditions.attributeToBeNotEmpty(generatedEmail, "value"));
+        return generatedEmail.getAttribute("value");
     }
 
     public EmailGeneratorPage copyEmailToClipboard() {
